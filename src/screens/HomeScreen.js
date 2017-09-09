@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 // Components
 import NavBar from "./components/NavBar";
+import AddPostBox from "./components/AddPostBox";
 
 const styles = StyleSheet.create({
     container: {
@@ -17,6 +18,7 @@ export default class HomeScreen extends Component {
         return (
             <View style={styles.container} >
                 <NavBar />
+                <AddPostBox />
                 <ScrollView>
                     <Text>
                         Scrollable view with content
