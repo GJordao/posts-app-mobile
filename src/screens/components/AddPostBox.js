@@ -1,9 +1,15 @@
 // React
 import React, { Component } from "react";
 // React Native
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
+} from "react-native";
 // Components
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const styles = StyleSheet.create({
     button: {
@@ -31,7 +37,7 @@ const styles = StyleSheet.create({
         marginLeft: "5%",
         marginTop: "30%",
         // check if shadow works on ios
-        shadowColor: '#000',
+        shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.5,
         shadowRadius: 2,
@@ -45,7 +51,7 @@ const styles = StyleSheet.create({
     inputContent: {
         padding: 10,
         height: 200,
-        textAlignVertical: 'top'
+        textAlignVertical: "top"
     },
     inputName: {
         borderTopColor: "black",
@@ -55,25 +61,41 @@ const styles = StyleSheet.create({
     inputTitle: {
         backgroundColor: "#efd09e",
         padding: 10
-    },
+    }
 });
 
 class AddPostBox extends Component {
     render() {
-        return (
-            <KeyboardAwareScrollView style={styles.container} >
-                <TextInput placeholder={"Title"} underlineColorAndroid={"transparent"} style={styles.inputTitle} />
-                <TextInput placeholder={"What's happening?"} underlineColorAndroid={"transparent"} multiline style={styles.inputContent} />
-                <View style={styles.containerBottom} >
-                    <TextInput placeholder={"Name"} underlineColorAndroid={"transparent"} returnKeyType={"done"} style={styles.inputName} />
-                    <View style={styles.buttonContainer} >
-                        <TouchableOpacity style={styles.button} >
-                            <Text style={styles.buttonText} >Post</Text>
-                        </TouchableOpacity>
+        {
+            return this.props.visible ? (
+                <KeyboardAwareScrollView style={styles.container}>
+                    <TextInput
+                        placeholder={"Title"}
+                        underlineColorAndroid={"transparent"}
+                        style={styles.inputTitle}
+                    />
+                    <TextInput
+                        placeholder={"What's happening?"}
+                        underlineColorAndroid={"transparent"}
+                        multiline
+                        style={styles.inputContent}
+                    />
+                    <View style={styles.containerBottom}>
+                        <TextInput
+                            placeholder={"Name"}
+                            underlineColorAndroid={"transparent"}
+                            returnKeyType={"done"}
+                            style={styles.inputName}
+                        />
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={styles.button}>
+                                <Text style={styles.buttonText}>Post</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
-            </KeyboardAwareScrollView >
-        );
+                </KeyboardAwareScrollView>
+            ) : null;
+        }
     }
 }
 
