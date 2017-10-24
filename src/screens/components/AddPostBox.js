@@ -65,30 +65,68 @@ const styles = StyleSheet.create({
 });
 
 class AddPostBox extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            content: "",
+            name: "",
+            title: ""
+        };
+    }
+
+    resetPostData() {
+        this.setState({
+            content: "",
+            name: "",
+            title: ""
+        });
+    }
+
     render() {
         {
             return this.props.visible ? (
                 <KeyboardAwareScrollView style={styles.container}>
                     <TextInput
+                        onChangeText={value =>
+                            this.setState({
+                                title: value
+                            })}
                         placeholder={"Title"}
                         underlineColorAndroid={"transparent"}
                         style={styles.inputTitle}
+                        value={this.state.title}
                     />
                     <TextInput
+                        onChangeText={value =>
+                            this.setState({
+                                content: value
+                            })}
                         placeholder={"What's happening?"}
                         underlineColorAndroid={"transparent"}
                         multiline
                         style={styles.inputContent}
+                        value={this.state.content}
                     />
                     <View style={styles.containerBottom}>
                         <TextInput
+                            onChangeText={value =>
+                                this.setState({
+                                    name: value
+                                })}
                             placeholder={"Name"}
                             underlineColorAndroid={"transparent"}
                             returnKeyType={"done"}
                             style={styles.inputName}
+                            value={this.state.name}
                         />
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button}>
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={() => {
+                                    this.props.onSubmit(this.state);
+                                    this.resetPostData();
+                                }}
+                            >
                                 <Text style={styles.buttonText}>Post</Text>
                             </TouchableOpacity>
                         </View>

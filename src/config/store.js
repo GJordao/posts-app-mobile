@@ -3,9 +3,11 @@ import { applyMiddleware, createStore, combineReducers } from "redux";
 import thunkMiddleware from "redux-thunk";
 // Reducers
 import AddPostBox from "./../reducers/AddPostBox";
+import Posts from "./../reducers/Posts";
 
 const reducers = combineReducers({
-    addPostBox: AddPostBox
+    addPostBox: AddPostBox,
+    posts: Posts
 });
 
 const middleware = () => {

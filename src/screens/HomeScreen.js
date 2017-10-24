@@ -12,6 +12,7 @@ import {
 import { connect } from "react-redux";
 // actions
 import { showPostBox, hidePostBox } from "./../actions/addPostBox";
+import { addPost } from "./../actions/posts";
 // Components
 import NavBar from "./components/NavBar";
 import AddPostBox from "./components/AddPostBox";
@@ -20,6 +21,14 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: "#e8f3f9",
         flex: 1
+    },
+    shadowOverlay: {
+        backgroundColor: "rgba(0, 0, 0, 0.3)",
+        flex: 1,
+        height: "100%",
+        position: "absolute",
+        width: "100%",
+        zIndex: 100
     }
 });
 
@@ -37,9 +46,26 @@ class HomeScreen extends Component {
                             this.props.showPostBox();
                         }}
                     />
-                    <AddPostBox visible={this.props.addPostBox.visible} />
+                    {this.props.addPostBox.visible && (
+                        <View style={styles.shadowOverlay} />
+                    )}
+                    <AddPostBox
+                        visible={this.props.addPostBox.visible}
+                        onSubmit={post => {
+                            this.props.addPost(post);
+                            this.props.hidePostBox();
+                        }}
+                    />
                     <ScrollView>
-                        <Text>Scrollable view with content</Text>
+                        {this.props.posts.list.map((post, index) => {
+                            return (
+                                <View key={index}>
+                                    <Text>{post.title}</Text>
+                                    <Text>{post.content}</Text>
+                                    <Text>{post.name}</Text>
+                                </View>
+                            );
+                        })}
                     </ScrollView>
                 </View>
             </TouchableWithoutFeedback>
@@ -49,10 +75,11 @@ class HomeScreen extends Component {
 
 const mapStateToProps = state => {
     return {
-        addPostBox: state.addPostBox
+        addPostBox: state.addPostBox,
+        posts: state.posts
     };
 };
 
-export default connect(mapStateToProps, { showPostBox, hidePostBox })(
+export default connect(mapStateToProps, { showPostBox, hidePostBox, addPost })(
     HomeScreen
 );
