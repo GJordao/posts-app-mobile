@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 // React Native
 import {
+    Keyboard,
     ScrollView,
     StyleSheet,
     Text,
@@ -34,42 +35,73 @@ const styles = StyleSheet.create({
 });
 
 class HomeScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            keyboardVisible: false
+        };
+    }
+
+    componentWillMount() {
+        this.keyboardShowListener = Keyboard.addListener(
+            "keyboardDidShow",
+            this.handleKeyboardShow
+        );
+        this.keyboardHideListener = Keyboard.addListener(
+            "keyboardDidHide",
+            this.handleKeyboardHide
+        );
+    }
+
+    componentWillUnmount() {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+    }
+
+    handleKeyboardShow = () => {
+        this.setState({
+            keyboardVisible: true
+        });
+    };
+
+    handleKeyboardHide = () => {
+        this.setState({
+            keyboardVisible: false
+        });
+    };
+
     render() {
         return (
-            <TouchableWithoutFeedback
-                onPress={() => {
-                    this.props.hidePostBox();
-                }}
-            >
-                <View style={styles.container}>
-                    <NavBar
-                        onPlusPress={() => {
-                            this.props.showPostBox();
+            <View style={styles.container}>
+                <NavBar
+                    onPlusPress={() => {
+                        this.props.showPostBox();
+                    }}
+                />
+                {this.props.addPostBox.visible && (
+                    <TouchableWithoutFeedback
+                        onPress={() => {
+                            this.state.keyboardVisible
+                                ? Keyboard.dismiss()
+                                : this.props.hidePostBox();
                         }}
-                    />
-                    {this.props.addPostBox.visible && (
+                    >
                         <View style={styles.shadowOverlay} />
-                    )}
-                    <AddPostBox
-                        visible={this.props.addPostBox.visible}
-                        onSubmit={post => {
-                            this.props.addPost(post);
-                            this.props.hidePostBox();
-                        }}
-                    />
-                    <View style={{ alignItems: "center" }}>
-                        {this.props.posts.list.map((post, index) => {
-                            return (
-                                <Post
-                                    index={index}
-                                    key={index}
-                                    post={post}
-                                />
-                            );
-                        })}
-                    </View>
+                    </TouchableWithoutFeedback>
+                )}
+                <AddPostBox
+                    visible={this.props.addPostBox.visible}
+                    onSubmit={post => {
+                        this.props.addPost(post);
+                        this.props.hidePostBox();
+                    }}
+                />
+                <View style={{ alignItems: "center" }}>
+                    {this.props.posts.list.map((post, index) => {
+                        return <Post index={index} key={index} post={post} />;
+                    })}
                 </View>
-            </TouchableWithoutFeedback>
+            </View>
         );
     }
 }
