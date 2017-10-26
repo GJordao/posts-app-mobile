@@ -16,6 +16,7 @@ import { addPost } from "./../actions/posts";
 // Components
 import NavBar from "./components/NavBar";
 import AddPostBox from "./components/AddPostBox";
+import Post from "./components/Post";
 
 const styles = StyleSheet.create({
     container: {
@@ -56,17 +57,17 @@ class HomeScreen extends Component {
                             this.props.hidePostBox();
                         }}
                     />
-                    <ScrollView>
+                    <View style={{ alignItems: "center" }}>
                         {this.props.posts.list.map((post, index) => {
                             return (
-                                <View key={index}>
-                                    <Text>{post.title}</Text>
-                                    <Text>{post.content}</Text>
-                                    <Text>{post.name}</Text>
-                                </View>
+                                <Post
+                                    index={index}
+                                    key={index}
+                                    post={post}
+                                />
                             );
                         })}
-                    </ScrollView>
+                    </View>
                 </View>
             </TouchableWithoutFeedback>
         );
