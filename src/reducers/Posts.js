@@ -18,7 +18,7 @@ export default (state = defaultState, action) => {
         }
         case REMOVE_POST: {
             const newPosts = state.list.slice();
-            newPosts.splice(action.payload, 1);    
+            delete newPosts[action.payload];    
             return Object.assign({}, state, { list: newPosts });
         }
         default:
